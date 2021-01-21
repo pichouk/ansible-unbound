@@ -1,0 +1,33 @@
+server:
+  # Network configuration
+  port: 53
+  interface: 127.0.0.1
+  interface: {{ unbound_listen_addr | default(ansible_default_ipv4.address) }}@53
+  interface-automatic: no
+  outgoing-interface: {{ unbound_listen_addr | default(ansible_default_ipv4.address) }}
+  do-ip4: yes
+  do-ip6: no
+  do-udp: yes
+  do-tcp: yes
+
+  # Resolver ACL
+  access-control: 127.0.0.1 allow
+  access-control: {{ unbound_allowed_network }} allow
+
+  # Logging
+  verbosity: {{ unbound_verbosity }}
+  use-syslog: yes
+  log-queries: {{ 'yes' if unbound_log_queries else 'no'  }}
+  log-servfail: {{ 'yes' if unbound_log_servfail else 'no' }}
+
+  # Hardening
+  hide-identity: yes
+  hide-version: yes
+  harden-glue: yes
+
+  # Cache
+  msg-cache-size: 8m
+  rrset-cache-size: 8m
+
+remote-control:
+  control-enable: no

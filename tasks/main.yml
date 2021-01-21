@@ -1,0 +1,21 @@
+---
+# Test variables
+- name: "Test required variables"
+  fail: msg="ERROR. This role requires 'unbound_allowed_network'"
+  when: unbound_allowed_network | bool
+
+- name: Unbound installation
+  apt:
+    name:
+      - unbound
+      - unbound-anchor
+    state: latest
+
+- name: Unbound resolver configuration
+  template:
+    src: resolver.conf.j2
+    dest: /etc/unbound/unbound.conf.d/resolver.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart unbound

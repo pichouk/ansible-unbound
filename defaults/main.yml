@@ -1,0 +1,8 @@
+unbound_allowed_network: ""
+unbound_verbosity: "0"
+unbound_listen_addr: ""
+
+unbound_log_queries: false
+unbound_log_servfail: true
+
+unbound_enable_ufw: false
